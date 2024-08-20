@@ -27,6 +27,8 @@ function operate(num1, num2, op){
             return divide(Num1, Num2).toString();
         case "x":
             return multiply(Num1, Num2).toString();
+        case "=":
+            return Num2.toString();
     }
 }
 
@@ -55,16 +57,15 @@ buttons.addEventListener("click", (event)=> {
         const num_curr = display.textContent;
         display.textContent = (num_curr === "0") ? num_to_add : num_curr + num_to_add;
     } else if (target_is_operator){
-        num_working.textContent = display.textContent;
         const op_is_pending = op_container.textContent;
-        if (op_is_pending){
+        if (op_is_pending && !num_working.textContent){
             //execute previous operation
-            const result = operate(num_reserve.textContent,num_working.textContent,op_container.textContent);
-            num_working.textContent = result;
+            const result = operate(num_reserve.textContent,display.textContent,op_container.textContent);
             display.textContent = result;
         }
         const op = target.textContent;
         op_container.textContent = op;
+        num_working.textContent = display.textContent;
         console.log("operator clicked");
     }
 })
